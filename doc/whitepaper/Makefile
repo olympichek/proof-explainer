@@ -19,7 +19,7 @@ SSRC= 	$(DOCNAME).bib \
         Makefile
 
 # 3-rd party files I am unlikely to modify
-LIBS=
+LIBS=   page236.pdf
 
 all: $(DOCNAME).pdf
 
