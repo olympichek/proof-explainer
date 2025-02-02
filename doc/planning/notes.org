@@ -1,0 +1,64 @@
+Strategies that we can apply to get better proof explanations:
+
+1. We can use a more specific prompt to get better results. We can try
+   different prompts and find what works best. We can experiment with
+   both system and user prompts with the models that allow this.
+
+2. In some situations it is hard to understand Coq proof without walking
+   through it interactively. For example, sometimes it is not possible
+   to understand which automatically-generated name corresponds to which
+   hypothesis. To achieve better results we can feed to the LLM not only
+   the proof script, but also proof contexts after each proof step.
+
+3. Coq tactics usually change only some parts of the proof context,
+   while the rest remains unchanged. Providing the whole proof context
+   after each proof step significantly increases the size of the input
+   that we provide to the LLM, which can be a problem as LLMs have a
+   limited context window. To mitigate this problem we can provide only
+   the difference between proof contexts after each proof step.
+
+4. Coq proof script language allows to combine multiple tactics into
+   larger, complex tactics with the use of tacticals. These complex
+   tactics are processed by Coq as a one tactic and it is not usually
+   possible to look at the proof context after each individual tactic
+   that is a part of a complex tactic. To achieve better results we can
+   perform a preprocessing of the proof and unfold such complex tactics.
+
+5. On the other hand, considering that LLM's context window is limited,
+   we can split a proof into multiple blocks and provide only the
+   contexts (or differences of contexts) after each such block rather
+   than after each proof step to achieve better handling of very large
+   proof files.
+
+6. Sometimes it can be hard to determine which goal is a tactic applied
+   to, especially if the Coq proof is written without adherence to a
+   particular code style. To get better results in such cases we can
+   perform automatic formatting and restructuring of the Coq proof as
+   one of the preprocessing steps.
+
+7. Looking at the Coq proof itself, it might not be possible to deduce
+   how the functions involved are defined, what are the statements of
+   the lemmas used in the proof or how the custom tactics work. The
+   situation gets better if besides the proof, proof contexts are also
+   available. In that case, it might be possible to deduce:\\
+
+- how the function is defined, by looking at the proof context before
+  and after the use of the "unfold" tactic;\\
+- what is the statement of the lemma used, by looking at the proof
+  context before and after "apply" tactic;\\
+- what does a custom tactic do, by looking at the proof context before
+  and after the use of that tactic.
+
+However, this approach might not always be sufficient as well. To get
+even better results we can provide to the LLM the surrounding context of
+the lemma. The simple way is to provide the whole file in which the
+lemma is defined or to allow the user to select additional files. The
+more advanced approach is to perform an analysis of the statement and
+the proof of the lemma and determine what the relevant definitions are
+at the preprocessing step. Then we can provide exactly those definitions
+that are used within the lemma to the LLM in addition to the proof
+itself.
+
+8. [@8] Once the LLM generates an explanation for the proof of some
+   lemma, we can store it in the database and utilize it later to
+   enhance explanations of lemmas that depend on it.
