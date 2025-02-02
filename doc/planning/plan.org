@@ -1,0 +1,11 @@
+* Plans (unordered)
+** Coq integration
+  - Integration with Coq build system (~dune~ or ~coq_makefile~)
+    to process all files in the project.
+  - Integration with Coq HTML documentation system (e.g. ~coqdoc~)
+  - Integration with ~coq-lsp~ to query dependencies, resolve notation, etc.
+** LLM integration
+  - Simple LLM wrapper to talk to different LLMs. (e.g. [[https://www.litellm.ai/][LiteLLM]])
+  - For initial debugging integrate with at least one self-hosted
+    model (e.g. llama). This will allow us to debug test runs on big
+    projects with many LLM queries without spending money.
