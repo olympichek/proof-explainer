@@ -68,10 +68,22 @@ it could be large, making it difficult to focus on the relevant part
 of each step. Some features of proof assistants allow for writing more
 human-readable proofs, but proof writers often ignore them in favour
 of brevity and expediency. One example is use automatic variable
-naming which makes proofs less readable. Additionally, while tactic
-languages support some structuring of the proof script to reflect the
-branching of the proof tree, these features are not always rigorously
-used by human proof writers, and their expressivity is limited.
+naming which is convenient, but makes proofs less
+readable. Additionally, while tactic languages support some
+structuring of the proof script to reflect the branching of the proof
+tree, these features are not always rigorously used by human proof
+writers, and their expressivity is limited.
+
+In any sizeable proof development, the proof is structured into
+theorems, lemmas, and corollaries, dividing it into more
+comprehensible fragments.  Thus, when explaining a particular theorem,
+it is beneficial to utilise the meaning of the auxiliary lemmas it
+relies on and present the current proof using high-level intuitive
+descriptions of these lemmas. For example, it is helpful to recognise
+that an auxiliary lemma stating
+$\forall a, b, c \; (a + (b + c) = (a + b) + c)$ expresses the
+\textit{associativity of addition} and to refer to it using this more
+accessible description.
 
 \section*{Proposal}
 
@@ -95,7 +107,7 @@ confidence in engaging with real-world proof codebases.
 
 \section*{The approach}
 
-While current LLMs provide a decent explanation of simple,
+While current LLMs already provide a decent explanation of simple,
 self-contained proofs, as shown in our Gauss's formula example in
 Appendix~\ref{sec:explained}, they struggle with larger proofs that
 use auxiliary lemmas, third-party libraries, and custom
@@ -156,10 +168,21 @@ presentation, where they are already showing promising results.
 
 \section*{Budget \& Estimates}
 
-This is a relatively small-scale project. We estimate 6-8 months with
-a budget of approximately \$20K, covering the salary of one full-time
-research engineer and LLM usage fees. The involvement of the PI (and
-potentially a co-PI) is provided at no cost.
+This is a relatively small-scale project, estimated to take 6 to 8
+months. The work is roughly evenly split between engineering (such as
+integration with proof assistants and LLM APIs) and research
+(experimenting with different LLMs, prompting strategies,
+bootstrapping RAG, etc.), making a dedicated full-time research
+engineer essential for effective execution.
+
+While undergraduate and graduate students may contribute, their
+involvement will be on a voluntary or part-time basis, providing
+additional support in both engineering and research aspects. The
+involvement of the PI (and potentially a co-PI) is provided at no
+cost.
+
+The estimated budget of approximately \$20K primarily covers the
+salary of the research engineer and LLM usage fees.
 
 \appendix
 
