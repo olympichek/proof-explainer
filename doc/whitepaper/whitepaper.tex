@@ -37,7 +37,7 @@
 
 \section*{The Problem}
 
-Formal proofs using Proof Assistants such as Rocq\footnote{formerly
+Formal proofs using Proof Assistants such as Rocq\footnote{Formerly
   known as Coq Proof Assistant}, Lean, and Isabelle have become important design
 artefacts of modern high-assurance software systems. Along with the
 traditional source code base, proof scripts must be reviewed,
@@ -131,9 +131,10 @@ supply only necessary definitions, strip irrelevant parts of the proof
 context, or supply only the calculated diffs between the proof states.
 
 Additionally, we can leverage different models and arbitrage or verify
-their results. Using the well-established \textit{in-context learning
-  agents} approach \cite{wei2022chain}, we can split reasoning into
-several steps and process each via separate LLM queries.
+their results. Using the well-established \textit{chain-of-thought}
+reasoning approach with \textit{in-context learning agents}
+\cite{wei2022chain}, we can split reasoning into several steps and
+process each via separate LLM queries.
 
 Finally, we can perform multi-pass elaboration for projects containing
 reusable lemmas, first processing the auxiliary lemmas and later using
