@@ -37,12 +37,13 @@
 
 \section*{The Problem}
 
-Formal proofs using Proof Assistants such as Coq, Lean, and Isabelle
-have become important design artefacts of modern high-assurance
-software systems. Along with the traditional source code base, proof
-scripts must be reviewed, documented, and maintained. As different
-groups of proof engineers work on them over time, proof scripts'
-documentation and overall readability become crucial.
+Formal proofs using Proof Assistants such as Rocq\footnote{formerly
+  known as Coq Proof Assistant}, Lean, and Isabelle have become important design
+artefacts of modern high-assurance software systems. Along with the
+traditional source code base, proof scripts must be reviewed,
+documented, and maintained. As different groups of proof engineers
+work on them over time, proof scripts' documentation and overall
+readability become crucial.
 
 Unfortunately, proof scripts are generally not easily
 human-readable. Consider the following example of a formal proof of
@@ -87,7 +88,7 @@ accessible description.
 
 \section*{Proposal}
 
-We propose to develop a tool to explain and document Coq proofs with
+We propose to develop a tool to explain and document Rocq proofs with
 the help of LLMs. When applied to an already proven lemma, the Proof
 Explainer will produce standalone documentation or annotated and
 restructured for readability proof script. It could be made accessible
@@ -115,7 +116,7 @@ notations. Another reason they perform much better on simple textbook
 proofs is that these have been published before, discussed online, and
 were likely included in the training corpus.
 
-The key observation is that proof explanation requires insight into
+The key observation is that explaining proofs requires insight into
 the proof state, as maintained by a proof assistant. Our tool will
 integrate a proof assistant to access this information. We can use
 proof assistant APIs to disambiguate syntax and access the per-step
@@ -127,7 +128,7 @@ context window, and feeding the whole proof along with all related
 definitions is impractical. This calls for carefully curating the
 information supplied to the model at each reasoning step. We can
 supply only necessary definitions, strip irrelevant parts of the proof
-context, or the calculated proof stated diffs between the steps.
+context, or supply only the calculated diffs between the proof states.
 
 Additionally, we can leverage different models and arbitrage or verify
 their results. Using the well-established “AI agents” approach, we can
@@ -171,9 +172,10 @@ presentation, where they are already showing promising results.
 This is a relatively small-scale project, estimated to take 6 to 8
 months. The work is roughly evenly split between engineering (such as
 integration with proof assistants and LLM APIs) and research
-(experimenting with different LLMs, prompting strategies,
-bootstrapping RAG, etc.), making a dedicated full-time research
-engineer essential for effective execution.
+(experimenting with different LLMs, prompting strategies, implementing
+retrieval-augmented generation (RAG) techniques, etc.), making a
+dedicated full-time research engineer essential for effective
+execution.
 
 While undergraduate and graduate students may contribute, their
 involvement will be on a voluntary or part-time basis, providing
@@ -187,18 +189,19 @@ salary of the research engineer and LLM usage fees.
 \appendix
 
 \newpage
-\section{Textbook proof of Gauss' Summation Formula}
+\section{Mathematical Textbook Proof of Gauss' Summation Formula}
+
 \label{sec:textbookproof}
 
 \begin{figure}[h]
 \fbox{
   \includegraphics[page=1, trim=0cm 4.4cm 0cm 6cm, clip, width=\textwidth]{page236.pdf}
   }
-  \caption{A textbook proof of Gauss' Summation Formula from \cite{roberts2014introduction}}
+  \caption{A ``pen and paper'' proof of Gauss' Summation Formula from \cite{roberts2014introduction}}
 \end{figure}
   
 \newpage
-\section{Appendix: LLM-Explained Coq Proof of Gauss's Summation Formula}
+\section{Appendix: LLM-Explained Rocq Proof of Gauss's Summation Formula}
 \label{sec:explained}
 
 The following explanation is produced by ChatGPT \textit{o3-mini-high}
@@ -219,10 +222,10 @@ to $(n+1)$.
 It should also be noted that the classic formulation of Gauss's
 formula sums all numbers starting from $1$, and consequently, most
 textbook proofs proceed by induction with $1$ as the base case. The
-Coq formalisation we used starts the summation from $0$ and proceeds
+Rocq formalisation we used starts the summation from $0$ and proceeds
 by induction with the base case $0$. While both formulations are
 equivalent and both proof approaches yield the same result, this
-difference between classic mathematics and formal proofs in Coq is
+difference between classic mathematics and formal proofs in Rocq is
 worth highlighting.
 
 \noindent\hdashrule[0.5ex]{\textwidth}{1pt}{1pt}
