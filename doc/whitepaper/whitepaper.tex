@@ -2,7 +2,7 @@
 
 \PassOptionsToPackage{twoside=false}{geometry}
 \documentclass[10pt,nonacm,natbib=false]{acmart}
-
+\usepackage{amsmath}
 \usepackage{listings}
 \lstset{%
   basicstyle=\ttfamily\small,
@@ -15,7 +15,6 @@
 \usepackage{url}
 \usepackage{color}
 \usepackage{xcolor}
-\usepackage{lmodern}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,      % Set to false to disable coloring of links
@@ -24,7 +23,7 @@
     pdfborder={0 0 0}     % Remove borders around links
   }
 \usepackage{graphicx}  
-\usepackage{dashrule} % Required for dashed lines
+\usepackage{dashrule} 
 
 \title{Project ``Proof Explainer''}
 \subtitle{Advancing Proof Comprehension}
@@ -53,7 +52,7 @@ compare it with the proof from a classical mathematics textbook
 
 \begin{lstlisting}
 Example gauss n :
-  \sum_(0 <= i < n.+1) i = n * n.+1 %/ 2.
+  \sum_(0 <= i < n+1) i = n * n+1 %/ 2.
 Proof.
   elim: n =>[|n IHn]; first by apply: big_nat1.
   rewrite big_nat_recr //= IHn addnC -divnMDl //.
@@ -189,20 +188,32 @@ model using the following prompt.
 
 \end{quotation}
 
-\noindent The models' output is included verbatim below.
+\noindent The models' \LaTeX\ output contained some poorly formatted
+maths and was manually cleaned. The artificially introduced math
+notation $(n.+1)$ for the successor of natural numbers was simplified
+to $(n+1)$.
+
+It should also be noted that the classic formulation of Gauss's
+formula sums all numbers starting from $1$, and consequently, most
+textbook proofs proceed by induction with $1$ as the base case. The
+Coq formalisation we used starts the summation from $0$ and proceeds
+by induction with the base case $0$. While both formulations are
+equivalent and both proof approaches yield the same result, this
+difference between classic mathematics and formal proofs in Coq is
+worth highlighting.
 
 \noindent\hdashrule[0.5ex]{\textwidth}{1pt}{1pt}
 
 In this appendix we explain the following Coq/SSReflect proof of the formula
 \[
-\sum_{0 \le i < n+1} i = \frac{n(n+1)}{2},
+\sum_{i=0}^ {n} i = \frac{n(n+1)}{2},
 \]
 which is the well-known result for the sum of the first \( n \) natural numbers.
 
 \subsection*{Proof Script}
 \begin{lstlisting}
 Example gauss n :
-  \sum_(0 <= i < n.+1) i = n * n.+1 %/ 2.
+  \sum_(0 <= i < n+1) i = n * n+1 %/ 2.
 Proof.
   elim: n =>[|n IHn]; first by apply: big_nat1.
   rewrite big_nat_recr //= IHn addnC -divnMDl //.
@@ -217,7 +228,7 @@ The goal is to prove that
 \[
 \sum_{i=0}^{n} i = \frac{n(n+1)}{2}.  
 \]
-Here, the notation \( n.+1 \) denotes the successor of \( n \) (i.e. \( n+1 \)), and the summation \(\sum_(0 \le i < n.+1) i\) is taken over the integers \( 0, 1, \dots, n \).
+Here, the notation \( n+1 \) denotes the successor of \( n \) (i.e. \( n+1 \)), and the summation \(\sum_{i=0}^{n}\) is taken over the integers \( 0, 1, \dots, n \).
 
 \paragraph{2. Proof by Induction:} 
 The proof proceeds by induction on \( n \), as initiated by the command:
@@ -233,7 +244,7 @@ This command splits the proof into two cases:
 \paragraph{3. Base Case (\( n = 0 \)):}
 For \( n = 0 \), the summation becomes
 \[
-\sum_{0 \le i < 0.+1} i = \sum_{i=0}^{0} i = 0.
+\sum_{0 \le i < 0+1} i = \sum_{i=0}^{0} i = 0.
 \]
 The right-hand side is
 \[
@@ -248,11 +259,11 @@ applies the lemma \texttt{big\_nat1}, which establishes that the sum over a sing
 \paragraph{4. Inductive Step:}
 Assuming the induction hypothesis (IHn):
 \[
-\sum_{0 \le i < n.+1} i = \frac{n(n+1)}{2},
+\sum_{i=0}^{n} i = \frac{n(n+1)}{2},
 \]
 we must show that
 \[
-\sum_{0 \le i < (n.+1).+1} i = \frac{(n+1)(n+2)}{2}.
+\sum_{0 \le i < (n+1)+1} i = \frac{(n+1)(n+2)}{2}.
 \]
 
 \paragraph{5. Decomposing the Sum:}
@@ -264,14 +275,14 @@ performs several operations:
 \begin{itemize}
     \item \texttt{big\_nat\_recr} rewrites the extended summation 
     \[
-    \sum_{0 \le i < (n.+1).+1} i
+    \sum_{0 \le i < (n+1)+1} i
     \]
     as the sum of the previous range plus the final term:
     \[
-    \left(\sum_{0 \le i < n.+1} i\right) + (n+1).
+    \left(\sum_{i=0}^{n} i\right) + (n+1).
     \]
     \item The \texttt{//=} notation triggers automatic simplification.
-    \item \texttt{IHn} replaces \(\sum_{0 \le i < n.+1} i\) with \(\frac{n(n+1)}{2}\) by the induction hypothesis.
+    \item \texttt{IHn} replaces \(\sum_{i=0}^{n} i\) with \(\frac{n(n+1)}{2}\) by the induction hypothesis.
     \item \texttt{addnC} utilises the commutativity of addition to rearrange terms.
     \item \texttt{-divnMDl} manages the division by \( 2 \), preparing the expression for the subsequent algebraic manipulation.
 \end{itemize}
@@ -297,7 +308,7 @@ which is exactly the form required to complete the inductive step.
 \paragraph{7. Conclusion:}
 Since both the base case and the inductive step have been established, by the principle of mathematical induction the formula
 \[
-\sum_{0 \le i < n+1} i = \frac{n(n+1)}{2}
+\sum_{i=0}^{n} i = \frac{n(n+1)}{2}
 \]
 holds for all natural numbers \( n \).
 
